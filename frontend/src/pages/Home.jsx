@@ -1,7 +1,11 @@
+import SwiperComponent from "../hooks/SwiperComponent.jsx";
+
 const Home = () => {
     return(
-        <div className="container max-w-[1440px] px-[218px] my-8 mt-[140px]">
-            <div className="h-[90rem] w-96 bg-indigo-400"></div>
+        <div className="home-container">
+            <div className="w-full xl:max-w-[1650px] md:max-w-[1090px] max-h-full">
+                <SwiperComponent/>
+            </div>
         </div>
     )
 }

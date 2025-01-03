@@ -12,7 +12,7 @@ const Header = () => {
 
 
     return(
-        <div className="absolute top-0 w-full h-[60px] flex justify-end items-center xl:px-[218px] md:px-[46px]">
+        <div className="header-container">
             {links.map((link, index) => (
                 <a
                     key={index}
@@ -20,7 +20,7 @@ const Header = () => {
                 >
                     {link.name}
                     {link.name === "고객센터" && (
-                        <IoChevronDownSharp className="w-[0.8rem] h-[0.8rem] text-gray-500 ml-[0.35rem] mt-1"/>
+                        <IoChevronDownSharp className="w-[0.8rem] h-[0.8rem] text-gray-500 ml-[0.35rem]"/>
                     )}
                 </a>
             ))}

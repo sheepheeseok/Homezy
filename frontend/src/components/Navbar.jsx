@@ -26,7 +26,7 @@ const Navbar = () => {
     }, []);
 
     const category = [
-        { name: "Tables", subMenu: ["Blazer", "Jacket"]},
+        { name: "Tables", subMenu: ["Table 1", "Table 2"]},
         { name: "Bed Frames" },
         { name: "Sideboards" },
         { name: "Couches" },
@@ -36,17 +36,13 @@ const Navbar = () => {
     const iconClass = "w-[1.6rem] h-[1.6rem] cursor-pointer";
 
     return(
-        <div
-            className={`fixed inset-x-0 ${isScrolled ? "top-0" : "top-[60px]"} w-full h-[80px] flex items-center xl:px-[218px] md:px-[46px] shadow-sm bg-white transition-all`}>
+        <div className={`navbar ${isScrolled ? 'scrolled' : 'initial'}`}>
             {/* 왼쪽 영역: 로고, 메뉴 카테고리 항목 */}
             <a className="text-3xl font-serif">Homezy</a>
             <div className="ml-8 space-x-3 flex">
                 {category.map((link, index) => (
                     <div key={index} className="relative group">
-                        <a
-                            href="#"
-                            className="cursor-pointer link-style"
-                        >
+                        <a href="#" className="cursor-pointer link-style">
                             {link.name}
                         </a>
                         {/* 서브 메뉴 */}
