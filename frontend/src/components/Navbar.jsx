@@ -3,7 +3,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import { IoPersonOutline } from "react-icons/io5";
 import { IoBagOutline } from "react-icons/io5";
 
-const Navbar = () => {
+const Navbar = ({ isBannerVisible }) => {
     // 스크롤 위치 상태 추가
     const [isScrolled, setIsScrolled] = useState(false);
 
@@ -36,10 +36,10 @@ const Navbar = () => {
     const iconClass = "w-[1.6rem] h-[1.6rem] cursor-pointer";
 
     return(
-        <div className={`navbar ${isScrolled ? 'scrolled' : 'initial'}`}>
+        <div className={`navbar ${isScrolled ? 'scrolled' : 'initial'} ${isBannerVisible ? 'top-[120px]' : 'top-[60px]'}`}>
             {/* 왼쪽 영역: 로고, 메뉴 카테고리 항목 */}
             <a className="text-3xl font-serif">Homezy</a>
-            <div className="ml-8 space-x-3 flex">
+            <div className="ml-12 space-x-10 flex">
                 {category.map((link, index) => (
                     <div key={index} className="relative group">
                         <a href="#" className="cursor-pointer link-style">

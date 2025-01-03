@@ -1,6 +1,6 @@
 import { IoChevronDownSharp } from "react-icons/io5";
 
-const Header = () => {
+const Header = ({ isBannerVisible }) => {
 
     const links = [
         { name: "회원가입" },
@@ -10,9 +10,8 @@ const Header = () => {
         { name: "고객센터" },
     ];
 
-
     return(
-        <div className="header-container">
+        <div className={`header-container ${isBannerVisible ? 'top-[60px]' : 'top-0'}`}>
             {links.map((link, index) => (
                 <a
                     key={index}
