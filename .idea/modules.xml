@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../homezy.iml" filepath="$PROJECT_DIR$/../homezy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Homezy.iml" filepath="$PROJECT_DIR$/Homezy.iml" />
     </modules>
   </component>
 </project>

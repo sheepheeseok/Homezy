@@ -84,7 +84,7 @@ button:focus-visible {
   display: block;
   height: 2px;
   width: 0; /* 기본 너비는 0 */
-  background-color: #ba892e; /* Gray-950 */
+  background-color: #D0AB88; /* Gray-950 */
   position: absolute;
   left: 4px;
   bottom: -13px; /* 텍스트 아래에서 4px 떨어지도록 설정 */
@@ -262,7 +262,6 @@ button:focus-visible {
 .home-container {
   width: 100%;
   height: 100%;
-  margin-top: -383px;
   padding-left: 46px;
   padding-right: 46px;
   display: flex;
@@ -272,7 +271,6 @@ button:focus-visible {
 
 @media (min-width: 1280px) { /* xl breakpoint */
   .home-container {
-    margin-top: -96px;
     padding-left: 370px;
     padding-right: 370px;
   }
@@ -323,4 +321,98 @@ button:focus-visible {
     padding-left: 370px;
     padding-right: 370px;
   }
+}
+
+.lifestyle {
+  margin-top: 9.7rem;
+  display: flex;
+  flex-direction: column; /* 여러 요소가 있을 경우 세로로 배치 */
+  width: 100%;
+  height: 40rem;
+}
+
+.lifestyle-link {
+  position: relative; /* ::after의 기준점 설정 */
+  font-size: 1.7rem;
+  font-weight: bold;
+}
+
+.lifestyle-subtitle {
+  position: relative; /* ::after의 기준점 설정 */
+  font-size: 0.9rem;
+  color: #ABABAB;
+}
+
+.lifestyle-cards-container {
+  display: flex; /* 카드들을 가로로 배치 */
+  flex-direction: row; /* 가로 배치 */
+  gap: 1rem; /* 카드들 간의 간격을 2rem로 설정 */
+  justify-content: space-between; /* 카드들 사이에 고르게 공간을 배치 */
+  flex-wrap: wrap; /* 화면 크기에 따라 카드들이 자동으로 줄 바꿈 */
+}
+
+.lifestyle-card {
+  position: relative;
+  margin-top: 1.5rem;
+  width: 350px;
+  height: 350px;
+}
+
+.lifestyle-card::after {
+  content: ""; /* 가상 요소 생성 */
+  position: absolute; /* 위치 지정 가능하도록 설정 */
+  top: 192px; /* 카드의 상단에 위치 */
+  left: 62px; /* 카드의 왼쪽에 위치 */
+  width: 288px; /* 카드의 너비와 동일 */
+  height: 158px; /* 카드의 높이와 동일 */
+  background-color: white; /* 흰색 배경 */
+  z-index: 1; /* 카드 아래에 배치 */
+  display: flex; /* 자식 요소들을 중앙 정렬 */
+  justify-content: center; /* 가로 가운데 정렬 */
+  align-items: center; /* 세로 가운데 정렬 */
+}
+
+.lifestyle-card .lifestylecard-text {
+  color: #333; /* 텍스트 색상 */
+  font-size: 1.5rem; /* 텍스트 크기 */
+  font-weight: bold;
+  font-family: 'Noto Sans KR', sans-serif;
+  position: absolute; /* 텍스트의 위치 조정 */
+  top: 230px; /* 세로 가운데 정렬 */
+  left: 95px; /* 가로 가운데 정렬 */
+  z-index: 2; /* 텍스트가 ::after 위에 오도록 설정 */
+  width: 70%;
+  word-wrap: break-word;
+  white-space: normal;
+  line-height: 1.1; /* 줄 간격을 조정 */
+}
+
+.lifestyle-card .lifestylecard-subtext {
+  color: #ABABAB; /* 텍스트 색상 */
+  font-size: 1rem; /* 텍스트 크기 */
+  position: absolute; /* 텍스트의 위치 조정 */
+  top: 310px; /* 세로 가운데 정렬 */
+  left: 95px; /* 가로 가운데 정렬 */
+  z-index: 2; /* 텍스트가 ::after 위에 오도록 설정 */
+  width: 70%;
+  word-wrap: break-word;
+  white-space: normal;
+  line-height: 1.1; /* 줄 간격을 조정 */
+}
+
+.lifestyle-card .lifestylecard-subtext:hover {
+  text-decoration: underline; /* 호버 시 밑줄 그어짐 */
+  text-decoration-color: #7e7e7e; /* 밑줄 색을 변경 */
+  cursor: pointer;
+}
+
+.lifestyle-link::after {
+  content: ""; /* 가상 요소 생성 */
+  display: block; /* 블록 요소로 설정 */
+  width: 2%; /* border의 가로 길이 */
+  height: 2px; /* border의 두께 */
+  background-color: #D0AB88; /* border 색상 */
+  position: absolute; /* 위치 지정 가능하도록 설정 */
+  top: -17px; /* 텍스트 위로 이동 (적절히 조정) */
+  left: 0; /* 텍스트의 시작 지점 기준 */
 }
