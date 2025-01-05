@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { IoSearchOutline } from "react-icons/io5";
 import { IoPersonOutline } from "react-icons/io5";
 import { IoBagOutline } from "react-icons/io5";
 
 const Navbar = ({ isBannerVisible }) => {
+    const navigate = useNavigate();
+    const location = useLocation();
     // 스크롤 위치 상태 추가
     const [isScrolled, setIsScrolled] = useState(false);
+    const gohome = () => { navigate("/")};
 
     // 스크롤 위치에 따라 상태 변경
     useEffect(() => {
@@ -36,10 +40,10 @@ const Navbar = ({ isBannerVisible }) => {
     const iconClass = "w-[1.6rem] h-[1.6rem] cursor-pointer";
 
     return(
-        <div className={`navbar ${isScrolled ? 'scrolled' : 'initial'} ${isBannerVisible ? 'top-[120px]' : 'top-[60px]'}`}>
+        <div className={`navbar ${isScrolled ? 'scrolled' : 'initial'} ${isBannerVisible ? 'top-[120px]' : 'top-[60px]'} ${location.pathname !== "/" ? "border-b border-gray-200" : ""}`}>
             {/* 왼쪽 영역: 로고, 메뉴 카테고리 항목 */}
-            <a className="text-3xl font-serif">Homezy</a>
-            <div className="ml-12 space-x-10 flex">
+            <a onClick={gohome} className="text-3xl font-serif cursor-pointer">Homezy</a>
+            <div className="ml-12 md:space-x-2 xl:space-x-9 flex">
                 {category.map((link, index) => (
                     <div key={index} className="relative group">
                         <a href="#" className="cursor-pointer link-style">

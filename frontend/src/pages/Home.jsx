@@ -1,5 +1,6 @@
-import SwiperComponent from "../hooks/SwiperComponent.jsx";
+import SwiperComponent from "../components/SwiperComponent.jsx";
 import LifestyleCard from "../cards/LifestyleCard.jsx";
+import ProductCard from "../cards/ProductCard.jsx";
 
 const Home = ({ isBannerVisible }) => {
     return(
@@ -15,6 +16,7 @@ const Home = ({ isBannerVisible }) => {
             <div className="lifestyle">
                 <a className="lifestyle-link">New Product</a>
                 <a className="lifestyle-subtitle">새롭게 입고된 신상품들을 만나보세요</a>
+                <ProductCard/>
             </div>
             <div className="lifestyle">
                 <a className="lifestyle-link">비고</a>
