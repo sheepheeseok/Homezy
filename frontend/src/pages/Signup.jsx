@@ -1,47 +1,73 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { IoChevronForwardSharp } from "react-icons/io5";
-import { BsChevronDown } from "react-icons/bs";
-import { IoIosArrowDropdown } from "react-icons/io";
-import AgreeCheckbox from "../components/AgreeCheckbox.jsx";
-import Agreedetailbox from "../components/Agreedetailbox.jsx"
+import {useState, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
+import axios from 'axios';
+import {IoChevronForwardSharp} from "react-icons/io5";
+import {BsChevronDown} from "react-icons/bs";
+import {IoIosArrowDropdown} from "react-icons/io";
+import AgreeCheckbox from "../components/Signup/AgreeCheckbox.jsx";
+import Agreedetailbox from "../components/Signup/Agreedetailbox.jsx"
 import useSignupForm from "../hooks/useSignupForm.js";
 
-const Signup = ({ isBannerVisible }) => {
+const Signup = ({isBannerVisible}) => {
     const navigate = useNavigate();
     const {
-        idValue, setIdValue,
-        isIdInputFocused, setIsIdInputFocused,
-        isIdInputEmpty, setIsIdInputEmpty,
-        hasWarningBeenShown, setHasWarningBeenShown,
-        idWarningMessage, setIdWarningMessage,
+        idValue,
+        setIdValue,
+        isIdInputFocused,
+        setIsIdInputFocused,
+        isIdInputEmpty,
+        setIsIdInputEmpty,
+        hasWarningBeenShown,
+        setHasWarningBeenShown,
+        idWarningMessage,
+        setIdWarningMessage,
 
-        password, setPassword,
-        isPasswordFocused, setIsPasswordFocused,
-        isPasswordValid, setIsPasswordValid,
-        passwordWarningMessage, setPasswordWarningMessage,
-        isPasswordEmpty, setIsPasswordEmpty,
+        password,
+        setPassword,
+        isPasswordFocused,
+        setIsPasswordFocused,
+        isPasswordValid,
+        setIsPasswordValid,
+        passwordWarningMessage,
+        setPasswordWarningMessage,
+        isPasswordEmpty,
+        setIsPasswordEmpty,
 
-        confirmPassword, setConfirmPassword,
-        isConfirmPasswordMatch, setIsConfirmPasswordMatch,
-        isConfirmPasswordFocused, setIsConfirmPasswordFocused,
-        confirmPasswordWarningMessage, setConfirmPasswordWarningMessage,
+        confirmPassword,
+        setConfirmPassword,
+        isConfirmPasswordMatch,
+        setIsConfirmPasswordMatch,
+        isConfirmPasswordFocused,
+        setIsConfirmPasswordFocused,
+        confirmPasswordWarningMessage,
+        setConfirmPasswordWarningMessage,
 
-        email, setEmail,
-        isEmailValid, setIsEmailValid,
-        emailWarningMessage, setEmailWarningMessage,
-        isEmailFocused, setIsEmailFocused,
+        email,
+        setEmail,
+        isEmailValid,
+        setIsEmailValid,
+        emailWarningMessage,
+        setEmailWarningMessage,
+        isEmailFocused,
+        setIsEmailFocused,
 
-        checkboxes, setCheckboxes,
-        expandedSections, setExpandedSections,
+        checkboxes,
+        setCheckboxes,
+        expandedSections,
+        setExpandedSections,
         handleAgreeAll
     } = useSignupForm(); // useSignupForm 훅 사용
 
     // 단계별 관리 상태
     const [currentStep, setCurrentStep] = useState(1);
+    const [selectedPhonePrefix, setSelectedPhonePrefix] = useState("010");
+    const [inputPhonePart1, setInputPhonePart1] = useState("");
+    const [inputPhonePart2, setInputPhonePart2] = useState("");
+    const [alarmInfo, setAlarmInfo] = useState({sms: false, email: false});
 
-
-    const gohome = () => { navigate("/")};
+    const gohome = () => {
+        navigate("/")
+    };
 
     const goBack = () => {
         if (currentStep > 1) {
@@ -122,8 +148,7 @@ const Signup = ({ isBannerVisible }) => {
         // 경고 메시지가 있을 경우, 포커스를 취소
         if (confirmPasswordWarningMessage) {
             return; // 메시지가 있을 경우 포커스 상태를 변경하지 않음
-        }
-        else if (isConfirmPasswordMatch) {
+        } else if (isConfirmPasswordMatch) {
             return; // 비밀번호와 확인 비밀번호가 일치하면 포커스 취소
         }
 
@@ -180,20 +205,17 @@ const Signup = ({ isBannerVisible }) => {
         });
     };
 
-    const steps = [
-        { id: 1, label: "약관동의", active: currentStep === 1 },
-        { id: 2, label: "정보입력", active: currentStep === 2 },
-        { id: 3, label: "가입완료", active: currentStep === 3 },
-    ];
+    const steps = [{id: 1, label: "약관동의", active: currentStep === 1}, {
+        id: 2,
+        label: "정보입력",
+        active: currentStep === 2
+    }, {id: 3, label: "가입완료", active: currentStep === 3},];
 
-    const handleNextStep = () => {
+    const handleNextStep = async () => {
         let isValid = true;
 
         // 체크박스 유효성 체크 (전체 동의 및 필수 체크박스)
-        if (currentStep === 1 && (
-            !checkboxes.termsOfUse ||
-            !checkboxes.userData
-        )) {
+        if (currentStep === 1 && (!checkboxes.termsOfUse || !checkboxes.userData)) {
             isValid = false;
             alert("모든 필수 동의 항목을 체크해 주세요.");
         }
@@ -229,12 +251,45 @@ const Signup = ({ isBannerVisible }) => {
 
         // 모든 입력이 유효하면 다음 단계로 진행
         if (isValid && currentStep < steps.length) {
-            setCurrentStep(currentStep + 1); // 다음 단계로 이동
+            // 1단계에서는 알림 정보만 상태에 저장 (서버 요청 없음)
+            if (currentStep === 1) {
+                const alarm = {
+                    sms: checkboxes.sms,  // SMS 수신 여부
+                    email: checkboxes.Email,  // 이메일 수신 여부
+                };
+
+                // 알림 정보를 상태에 저장
+                setAlarmInfo(alarm);
+
+                setCurrentStep(currentStep + 1); // 가입 성공 후 다음 단계로 이동
+            }
+
+            // 2단계에서 서버 요청 (아이디, 비밀번호, 전화번호, 이메일, 알림 정보)
+            else if (currentStep === 2) {
+                try {
+                    const phoneNumber = `${selectedPhonePrefix}-${inputPhonePart1}-${inputPhonePart2}`;
+
+                    const response = await axios.post('http://localhost:3000/api/signup', {
+                        id: idValue, password: password, phone: phoneNumber,  // 전화번호
+                        email: email, alarm: alarmInfo,  // 알림 정보
+                    });
+
+                    // 응답 성공 시 처리
+                    if (response.data.success) {
+                        setCurrentStep(currentStep + 1); // 가입 성공 후 다음 단계로 이동
+                    } else {
+                        alert("가입 실패: " + response.data.message);
+                    }
+
+                } catch (error) {
+                    console.error('Error during sign up:', error);
+                    alert("서버 오류가 발생했습니다.");
+                }
+            }
         }
     };
 
-    return(
-        <div className={`Signup-container ${isBannerVisible ? 'top-[60px]' : 'top-[0px]'}`}>
+    return (<div className={`Signup-container ${isBannerVisible ? 'top-[60px]' : 'top-[0px]'}`}>
             <div className="mt-[160px] w-full xl:max-w-[1485px] md:max-w-[1090px]">
                 <a className="Signup-submaintext">
                     <span onClick={gohome} className="home-text">홈 /</span> 회원 가입
@@ -242,20 +297,15 @@ const Signup = ({ isBannerVisible }) => {
                 <div className="Signup-subcontainer">
                     <a className="Signup-maintext">회원 가입</a>
                     <div className="steps-container">
-                        {steps.map((step, index) => (
-                            <div key={step.id} className="step-item">
+                        {steps.map((step, index) => (<div key={step.id} className="step-item">
                             <span className={`step-text ${step.active ? "active" : ""}`}>
                                 {step.id}. {step.label}
                             </span>
                                 {/* 화살표 */}
-                                {index < steps.length - 1 && (
-                                    <IoChevronForwardSharp className="step-arrow"/>
-                                )}
-                            </div>
-                        ))}
+                                {index < steps.length - 1 && (<IoChevronForwardSharp className="step-arrow"/>)}
+                            </div>))}
                     </div>
-                    {currentStep === 1 && (
-                        <div className="Signup-levelcontainer">
+                    {currentStep === 1 && (<div className="Signup-levelcontainer">
                             <a className="Signup-maintext2">전체 동의</a>
                             <div className="line"></div>
                             <div className="Signupcheckbox-container">
@@ -273,8 +323,7 @@ const Signup = ({ isBannerVisible }) => {
                             <div className="Signupcheckbox-container">
                                 <AgreeCheckbox isCheckedInitial={checkboxes.termsOfUse}
                                                onToggle={(newState) => setCheckboxes({
-                                                   ...checkboxes,
-                                                   termsOfUse: newState
+                                                   ...checkboxes, termsOfUse: newState
                                                })}/>
                                 <a className="agree-text">이용약관 동의 (필수)</a>
                                 <BsChevronDown
@@ -286,8 +335,7 @@ const Signup = ({ isBannerVisible }) => {
                             <div className="Signupcheckbox-container2">
                                 <AgreeCheckbox isCheckedInitial={checkboxes.userData}
                                                onToggle={(newState) => setCheckboxes({
-                                                   ...checkboxes,
-                                                   userData: newState
+                                                   ...checkboxes, userData: newState
                                                })}/>
                                 <a className="agree-text">개인정보 수집 및 이용 동의 (필수)</a>
                                 <BsChevronDown
@@ -299,8 +347,7 @@ const Signup = ({ isBannerVisible }) => {
                             <div className="Signupcheckbox-container">
                                 <AgreeCheckbox isCheckedInitial={checkboxes.alarm}
                                                onToggle={(newState) => setCheckboxes({
-                                                   ...checkboxes,
-                                                   alarm: newState
+                                                   ...checkboxes, alarm: newState
                                                })}/>
                                 <a className="agree-text">쇼핑정보 수신 동의 (선택)</a>
                                 <BsChevronDown
@@ -313,17 +360,14 @@ const Signup = ({ isBannerVisible }) => {
                                 <a className="agree-subtext">SMS 수신 동의 (선택)</a>
                                 <AgreeCheckbox isCheckedInitial={checkboxes.Email}
                                                onToggle={(newState) => setCheckboxes({
-                                                   ...checkboxes,
-                                                   Email: newState
+                                                   ...checkboxes, Email: newState
                                                })}/>
                                 <a className="agree-subtext">이메일 수신 동의 (선택)</a>
                             </div>
                             <Agreedetailbox isExpanded={expandedSections.includes(3)} type={3}/>
-                        </div>
-                    )}
+                        </div>)}
 
-                    {currentStep === 2 && (
-                        <div className="Signup-levelcontainer">
+                    {currentStep === 2 && (<div className="Signup-levelcontainer">
                             <div className="line3"></div>
                             <div className={`Signup-id ${isIdInputEmpty && !isIdInputFocused ? 'expanded' : ''}`}>
                                 <div className="Signup-form">
@@ -340,13 +384,11 @@ const Signup = ({ isBannerVisible }) => {
                                         onChange={(e) => setIdValue(e.target.value)} // 입력값이 변경될 때 상태 업데이트
                                     />
                                     <a className="Signup-inputform-text">(영문소문자/숫자, 4~16자)</a>
-                                    {idWarningMessage && (
-                                        <a
+                                    {idWarningMessage && (<a
                                             className={`Signup-warning-text ${idWarningMessage.includes("사용 가능한 아이디") ? 'valid-id' : ''}`}
                                         >
                                             {idWarningMessage}
-                                        </a>
-                                    )}
+                                        </a>)}
                                 </div>
                             </div>
                             <div className={`Signup-pw ${(!isPasswordValid || !isPasswordEmpty) ? 'expanded' : ''}`}>
@@ -364,8 +406,7 @@ const Signup = ({ isBannerVisible }) => {
                                     <a className="Signup-inputform-text">
                                         (영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)
                                     </a>
-                                    {isPasswordFocused && (
-                                        <div className="Signup-password-help">
+                                    {isPasswordFocused && (<div className="Signup-password-help">
                                             <a className="Signup-helptext">※ 비밀번호 입력 조건</a>
                                             <a className="Signup-help-subtext mt-[13px]">- 대소문자/숫자/특수문자 중 2가지 이상 조합,
                                                 10자~16자</a>
@@ -376,12 +417,10 @@ const Signup = ({ isBannerVisible }) => {
                                             <a className="Signup-help-subtext">- 연속된 문자, 숫자 사용 불가능</a>
                                             <a className="Signup-help-subtext">- 동일한 문자, 숫자를 반복해서 사용 불가능</a>
                                             <a className="Signup-help-subtext">- 아이디 포함 불가능</a>
-                                        </div>
-                                    )}
+                                        </div>)}
                                     {/* 비밀번호 조건에 맞지 않으면 경고 메시지 표시 */}
                                     {!isPasswordValid && passwordWarningMessage && (
-                                        <div className="Signup-warning-text">{passwordWarningMessage}</div>
-                                    )}
+                                        <div className="Signup-warning-text">{passwordWarningMessage}</div>)}
                                 </div>
                             </div>
                             <div
@@ -400,8 +439,7 @@ const Signup = ({ isBannerVisible }) => {
                                         onBlur={handleConfirmPasswordBlur}
                                     />
                                     {!isConfirmPasswordMatch && !isConfirmPasswordFocused && (
-                                        <div className="Signup-warning-text">{confirmPasswordWarningMessage}</div>
-                                    )}
+                                        <div className="Signup-warning-text">{confirmPasswordWarningMessage}</div>)}
                                 </div>
                             </div>
                             <div className="Signup-name">
@@ -409,7 +447,11 @@ const Signup = ({ isBannerVisible }) => {
                                     <a className="Signup-formtext ml-[13px]">휴대전화</a>
                                 </div>
                                 <div className="Signup-inputform2 flex items-center">
-                                    <select className="Signup-selectbox">
+                                    <select
+                                        className="Signup-selectbox"
+                                        value={selectedPhonePrefix}
+                                        onChange={(e) => setSelectedPhonePrefix(e.target.value)}
+                                    >
                                         <option value="010">010</option>
                                         <option value="011">011</option>
                                         <option value="016">016</option>
@@ -424,6 +466,8 @@ const Signup = ({ isBannerVisible }) => {
                                         pattern="[0-9]{4}"
                                         maxLength="4"
                                         required
+                                        value={inputPhonePart1}
+                                        onChange={(e) => setInputPhonePart1(e.target.value)}
                                     />
                                     <span className="Signup-formtext ml-[13px] mb-[12px]">-</span>
                                     <input
@@ -432,6 +476,8 @@ const Signup = ({ isBannerVisible }) => {
                                         pattern="[0-9]{4}"
                                         maxLength="4"
                                         required
+                                        value={inputPhonePart2}
+                                        onChange={(e) => setInputPhonePart2(e.target.value)}
                                     />
                                 </div>
                             </div>
@@ -449,39 +495,28 @@ const Signup = ({ isBannerVisible }) => {
                                         onBlur={handleEmailBlur}
                                         onChange={handleEmailChange}
                                     />
-                                    {emailWarningMessage && (
-                                        <div className="Signup-warning-text">
+                                    {emailWarningMessage && (<div className="Signup-warning-text">
                                             {emailWarningMessage}
-                                        </div>
-                                    )}
+                                        </div>)}
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        </div>)}
 
-                    {currentStep === 3 && (
-                        <div className="Signup-levelcontainer2">
+                    {currentStep === 3 && (<div className="Signup-levelcontainer2">
                             <div className="line3"></div>
                             <IoIosArrowDropdown className="Signup-logo"/>
                             <a className="Signup-logotext">가입이 완료되었습니다!</a>
                             <a className="Signup-sublogotext">회원 가입이 성공적으로 완료되었습니다.</a>
-                        </div>
-                    )}
+                        </div>)}
 
                     <div className="Signup-button">
-                        {currentStep !== 3 && (
-                            <button className="Signup-cancel" onClick={goBack}>취소</button>
-                        )}
-                        {currentStep === 3 ? (
-                            <button className="Signup-next" onClick={gohome}>메인으로 가기</button>
-                        ) : (
-                            <button className="Signup-next" onClick={handleNextStep}>다음</button>
-                        )}
+                        {currentStep !== 3 && (<button className="Signup-cancel" onClick={goBack}>취소</button>)}
+                        {currentStep === 3 ? (<button className="Signup-next" onClick={gohome}>메인으로 가기</button>) : (
+                            <button className="Signup-next" onClick={handleNextStep}>다음</button>)}
                     </div>
                 </div>
             </div>
-        </div>
-    );
+        </div>);
 };
 
 

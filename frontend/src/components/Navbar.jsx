@@ -1,15 +1,17 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { IoSearchOutline } from "react-icons/io5";
-import { IoPersonOutline } from "react-icons/io5";
-import { IoBagOutline } from "react-icons/io5";
+import {useState, useEffect} from "react";
+import {useNavigate, useLocation} from "react-router-dom";
+import {IoSearchOutline} from "react-icons/io5";
+import {IoPersonOutline} from "react-icons/io5";
+import {IoBagOutline} from "react-icons/io5";
 
-const Navbar = ({ isBannerVisible }) => {
+const Navbar = ({isBannerVisible}) => {
     const navigate = useNavigate();
     const location = useLocation();
     // 스크롤 위치 상태 추가
     const [isScrolled, setIsScrolled] = useState(false);
-    const gohome = () => { navigate("/")};
+    const gohome = () => {
+        navigate("/")
+    };
 
     // 스크롤 위치에 따라 상태 변경
     useEffect(() => {
@@ -29,39 +31,31 @@ const Navbar = ({ isBannerVisible }) => {
         };
     }, []);
 
-    const category = [
-        { name: "Tables", subMenu: ["Table 1", "Table 2"]},
-        { name: "Bed Frames" },
-        { name: "Sideboards" },
-        { name: "Couches" },
-        { name: "Furniture" },
-    ];
+    const category = [{
+        name: "Tables",
+        subMenu: ["Table 1", "Table 2"]
+    }, {name: "Bed Frames"}, {name: "Sideboards"}, {name: "Couches"}, {name: "Furniture"},];
 
     const iconClass = "w-[1.6rem] h-[1.6rem] cursor-pointer";
 
-    return(
-        <div className={`navbar ${isScrolled ? 'scrolled' : 'initial'} ${isBannerVisible ? 'top-[120px]' : 'top-[60px]'} ${location.pathname !== "/" ? "border-b border-gray-200" : ""}`}>
+    return (<div
+            className={`navbar ${isScrolled ? 'scrolled' : 'initial'} ${isBannerVisible ? 'top-[120px]' : 'top-[60px]'} ${location.pathname !== "/" ? "border-b border-gray-200" : ""}`}>
             {/* 왼쪽 영역: 로고, 메뉴 카테고리 항목 */}
             <a onClick={gohome} className="text-3xl font-serif cursor-pointer">Homezy</a>
             <div className="ml-12 md:space-x-2 xl:space-x-9 flex">
-                {category.map((link, index) => (
-                    <div key={index} className="relative group">
+                {category.map((link, index) => (<div key={index} className="relative group">
                         <a href="#" className="cursor-pointer link-style">
                             {link.name}
                         </a>
                         {/* 서브 메뉴 */}
-                        {link.subMenu && (
-                            <div
+                        {link.subMenu && (<div
                                 className="sub-menu">
                                 {link.subMenu.map((item, idx) => (
                                     <a key={idx} href="#" className="block px-4 py-2 text-gray-700 hover:text-gray-950">
                                         {item}
-                                    </a>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                ))}
+                                    </a>))}
+                            </div>)}
+                    </div>))}
             </div>
 
             {/* 오른쪽 영역: 아이콘 */}
@@ -70,8 +64,7 @@ const Navbar = ({ isBannerVisible }) => {
                 <IoBagOutline className={iconClass}/>
                 <IoSearchOutline className={iconClass}/>
             </div>
-        </div>
-    )
+        </div>)
 }
 
 export default Navbar;

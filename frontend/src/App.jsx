@@ -8,6 +8,7 @@ import useBanner from "./hooks/useBanner.js";
 import Signup from "./pages/Signup.jsx";
 import Footer from "./components/Footer.jsx";
 import ScrollToTop from "./hooks/ScrollToTop.jsx";
+import Login from "./pages/Login.jsx";
 
 function App() {
     const { isBannerVisible, handleBannerClose, handleCheckboxChange } = useBanner(); // isChecked는 로컬 스토리지에서 직접 관리하므로 불필요
@@ -28,6 +29,7 @@ function App() {
         <Routes>
             <Route path="/" element={<Home isBannerVisible={isBannerVisible}/>} /> {/* 홈 */}
             <Route path="/Signup" element={<Signup isBannerVisible={isBannerVisible}/>} /> {/* 홈 */}
+            <Route path="/Login" element={<Login isBannerVisible={isBannerVisible}/>} /> {/* 홈 */}
         </Routes>
         <Footer/>
     </>

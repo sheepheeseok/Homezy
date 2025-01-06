@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { IoCloseOutline } from "react-icons/io5";
+import React, {useState, useEffect} from 'react';
+import {IoCloseOutline} from "react-icons/io5";
 
-const Banner = ({ onClose, onCheckboxChange }) => {
+const Banner = ({onClose, onCheckboxChange}) => {
     // 로컬 스토리지에서 체크 상태를 가져옴
     const [isChecked, setIsChecked] = useState(false);
 
@@ -23,8 +23,7 @@ const Banner = ({ onClose, onCheckboxChange }) => {
         onClose();  // 배너를 닫을 때 부모로부터 전달받은 함수 호출
     };
 
-    return (
-        <div className="banner-container">
+    return (<div className="banner-container">
             <a className="banner-text">첫 쇼핑을 지원하는 3,000원 할인 회원가입 쿠폰</a>
 
             <div className="banner-checkbox-container">
@@ -36,18 +35,16 @@ const Banner = ({ onClose, onCheckboxChange }) => {
                         className="checkbox-input"
                     />
                     <div className={`checkbox-box ${isChecked ? "checked" : "unchecked"}`}>
-                        {isChecked && (
-                            <svg xmlns="http://www.w3.org/2000/svg" className="checkbox-icon" fill="none" viewBox="0 0 24 24" stroke="black">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
-                        )}
+                        {isChecked && (<svg xmlns="http://www.w3.org/2000/svg" className="checkbox-icon" fill="none"
+                                            viewBox="0 0 24 24" stroke="black">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/>
+                            </svg>)}
                     </div>
                     <span className="banner-subtext">오늘 하루 보지 않기</span>
                 </label>
-                <IoCloseOutline onClick={handleBannerClose} className="close-icon" />
+                <IoCloseOutline onClick={handleBannerClose} className="close-icon"/>
             </div>
-        </div>
-    );
+        </div>);
 };
 
 export default Banner;
