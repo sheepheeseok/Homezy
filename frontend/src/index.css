@@ -310,6 +310,27 @@ button {
   height: 100%;
 }
 
+/* 페이지 단계 텍스트 */
+.page-text-black {
+  font-family: 'Noto Sans KR', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  display : flex;
+  justify-content: flex-end;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+.page-text-gray  {
+  font-family: 'Noto Sans KR', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  color: #898989;
+  margin-right: 7px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  display : flex;
+  justify-content: flex-end;
+}
+
+
+
 /* 홈 슬라이드 css */
 .overlay-content {
   position: absolute;
@@ -644,7 +665,7 @@ button {
   font-family: 'Noto Sans KR', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   display : flex;
   justify-content: flex-end;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   font-weight: bold;
 }
 .Signup-submaintext2 {
@@ -769,7 +790,8 @@ button {
   font-family: 'Noto Sans KR', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: normal;
   color: #898989;
-  margin-right: 7px;
+  margin-right: 5px;
+  font-size: 0.7rem;
   cursor: pointer;
 }
 .Signup-subcontainer {
@@ -1566,4 +1588,95 @@ button {
   font-family: NotoSansKR, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: bold;
   font-size: 0.8em;
+}
+
+/* 제품 페이지 css */
+.Product-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  padding-left: 46px;
+  padding-right: 46px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* 상단에 정렬되도록 설정 */
+  transition: all 0.3s ease;
+}
+@media (min-width: 1280px) { /* xl breakpoint */
+  .Product-container {
+    padding-left: 310px;
+  }
+}
+.Product-info-area{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  margin-top: 45px;
+}
+.Product-picture {
+  width: 380px;
+  height: 450px;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+@media (min-width: 1280px) { /* xl breakpoint */
+  .Product-picture {
+    width: 580px;
+    height: 679px;
+  }
+}
+.Product-picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 이미지 비율 유지 */
+  pointer-events: none;  /* 마우스 이벤트 차단 */
+  border-radius: 10px;
+}
+.Product-specpicture{
+  width: 55px;
+  height: 55px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 50%;
+  gap: 7px;
+  cursor: pointer;
+}
+.Product-specpicture img{
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+.zoomed-area {
+  position: absolute;
+  border: 2px solid #acacac;
+  background-color: white;
+  opacity: 50%;
+  width: 250px;  /* 정사각형 크기 */
+  height: 250px; /* 정사각형 크기 */
+  transform: translate(-50%, -50%); /* 마우스 중심으로 이동 */
+  pointer-events: none; /* 클릭되지 않도록 설정 */
+  visibility: visible;
+  z-index: 1; /* 이미지 위로 올리기 */
+}
+/* 확대된 이미지가 마우스 이동에 따라 보이도록 설정 */
+.enlarged-image-container {
+  position: absolute;
+  top: 477px;
+  left: 435px; /* 이미지 오른쪽에 배치 */
+  transform: translateY(-50%);
+  width: 490px; /* 확대된 이미지의 크기 */
+  height: 510px;
+  border: 1px solid #e5e7eb;
+  background-size: 200%; /* 확대된 이미지 크기 */
+  background-position: center; /* 기본 위치 */
+  display: none; /* 기본적으로 숨김 */
+  z-index: 2; /* 확대된 이미지가 다른 요소들보다 위에 표시되도록 */
+}
+/* 마우스를 이미지 위로 올렸을 때만 확대된 이미지 영역이 보이도록 */
+.Product-picture:hover + .enlarged-image-container {
+  display: block; /* 마우스를 이미지 위로 올렸을 때만 보이도록 */
 }

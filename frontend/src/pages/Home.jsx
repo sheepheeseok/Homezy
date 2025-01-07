@@ -2,7 +2,7 @@ import SwiperComponent from "../components/SwiperComponent.jsx";
 import LifestyleCard from "../cards/LifestyleCard.jsx";
 import ProductCard from "../cards/ProductCard.jsx";
 
-const products = [{productId: 1}, {productId: 2}, {productId: 3}, {productId: 4}, {productId: 5}, {productId: 6}, {productId: 7}, {productId: 8}];
+const products = [{productId: 1}, {productId: 2}, {productId: 3}, {productId: 4}, {productId: 5}, {productId: 6}, {productId: 7}, {productId: 9}];
 
 const Home = ({isBannerVisible}) => {
     return (<div className={`home-container ${isBannerVisible ? 'top-[0px]' : 'top-[-60px]'}`}>

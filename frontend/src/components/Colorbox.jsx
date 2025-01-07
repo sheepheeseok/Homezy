@@ -14,7 +14,10 @@ const Colorbox = ({options}) => {
             colorsSet.add("#008000"); // 그린 색상
         } else if (optionValue?.includes("그레이")) {
             colorsSet.add("#9E9E9E"); // 그레이 색상
+        } else if (optionValue?.includes("블랙")) {
+            colorsSet.add("#000000"); // 그레이 색상
         }
+
     });
 
     // 중복되지 않는 색상만 처리
